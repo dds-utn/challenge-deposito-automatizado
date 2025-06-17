@@ -16,7 +16,10 @@ public class Mercaderia {
         this.descripcion = descripcion;
     }
 
+
     public void serRecogidaPor(Robot robot) {
         this.compartimiento.getRecorrido().ejecutarRecorrido(robot);
     }
+
+
 }
