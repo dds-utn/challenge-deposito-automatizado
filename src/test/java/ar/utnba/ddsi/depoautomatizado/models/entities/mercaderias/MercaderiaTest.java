@@ -2,7 +2,7 @@ package ar.utnba.ddsi.depoautomatizado.models.entities.mercaderias;
 
 import ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.Recorrido;
 import ar.utnba.ddsi.depoautomatizado.models.entities.robots.Robot;
-import ar.utnba.ddsi.depoautomatizado.models.entities.robots.comandos.ComandoRobot;
+import ar.utnba.ddsi.depoautomatizado.models.entities.robots.instrucciones.InstruccionRobot;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,7 +13,7 @@ import static org.mockito.Mockito.*;
 class MercaderiaTest {
 
   private Robot robot;
-  private ComandoRobot comando;
+  private InstruccionRobot instruccion;
   private Recorrido recorrido;
   private Compartimiento compartimiento;
   private Mercaderia mercaderia;
@@ -22,10 +22,10 @@ class MercaderiaTest {
   void setUp() {
     // Mocks
     robot = mock(Robot.class);
-    comando = mock(ComandoRobot.class);
+    instruccion = mock(InstruccionRobot.class);
 
     recorrido = new Recorrido();
-    recorrido.agregarInstruccion(comando);
+    recorrido.agregarInstruccion(instruccion);
 
     compartimiento = new Compartimiento("C1", new Posicion(1, 2, 3));
     compartimiento.setRecorrido(recorrido);
@@ -42,6 +42,6 @@ class MercaderiaTest {
     // Acción
     mercaderia.serRecogidaPor(robot);
 
-    Mockito.verify(robot, Mockito.times(1)).recorrer(List.of(comando));
+    Mockito.verify(robot, Mockito.times(1)).recorrer(List.of(instruccion));
   }
 }

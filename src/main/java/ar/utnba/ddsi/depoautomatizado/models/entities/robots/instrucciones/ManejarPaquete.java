@@ -1,8 +1,8 @@
-package ar.utnba.ddsi.depoautomatizado.models.entities.robots.comandos;
+package ar.utnba.ddsi.depoautomatizado.models.entities.robots.instrucciones;
 
 import ar.utnba.ddsi.depoautomatizado.models.entities.robots.Robot;
 
-public class ManejarPaquete implements ComandoRobot {
+public class ManejarPaquete implements InstruccionRobot {
   private final AccionConPaquete accion;
 
   public ManejarPaquete(AccionConPaquete accion) {

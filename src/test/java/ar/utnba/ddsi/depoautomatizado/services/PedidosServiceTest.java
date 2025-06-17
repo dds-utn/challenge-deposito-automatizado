@@ -7,7 +7,7 @@ import ar.utnba.ddsi.depoautomatizado.models.entities.mercaderias.Posicion;
 import ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.Recorrido;
 import ar.utnba.ddsi.depoautomatizado.models.entities.robots.Clark;
 import ar.utnba.ddsi.depoautomatizado.models.entities.robots.Drone;
-import ar.utnba.ddsi.depoautomatizado.models.entities.robots.comandos.*;
+import ar.utnba.ddsi.depoautomatizado.models.entities.robots.instrucciones.*;
 import ar.utnba.ddsi.depoautomatizado.repositories.RepositorioDeRobots;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -58,7 +58,7 @@ class PedidosServiceTest {
                 I
         */
         Recorrido recorrido1 = new Recorrido();
-        List<ComandoRobot> instrucciones1 = List.of(
+        List<InstruccionRobot> instrucciones1 = List.of(
             new Avanzar(5),
             new Girar(90),
             new Avanzar(5),
@@ -100,7 +100,7 @@ class PedidosServiceTest {
                 I
         */
         Recorrido recorrido2 = new Recorrido();
-        List<ComandoRobot> instrucciones2 = List.of(
+        List<InstruccionRobot> instrucciones2 = List.of(
             new Avanzar(5),
             new Girar(90),
             new Avanzar(5),

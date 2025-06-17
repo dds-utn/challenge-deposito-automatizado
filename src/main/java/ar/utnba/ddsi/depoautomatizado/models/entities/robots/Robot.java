@@ -2,7 +2,7 @@ package ar.utnba.ddsi.depoautomatizado.models.entities.robots;
 
 
 import ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.obstaculos.EstrategiaObstaculo;
-import ar.utnba.ddsi.depoautomatizado.models.entities.robots.comandos.ComandoRobot;
+import ar.utnba.ddsi.depoautomatizado.models.entities.robots.instrucciones.InstruccionRobot;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,14 +17,14 @@ public abstract class Robot {
     private boolean obstaculizado;
     private boolean detener;
     private EstrategiaObstaculo estrategiaObstaculo;
-    private List<ComandoRobot> historialInstrucciones;
+    private List<InstruccionRobot> historialInstrucciones;
 
     Robot(Long id) {
         this.id = id;
         this.disponible = true;
         this.obstaculizado = false;
         this.detener = false;
-        this.historialInstrucciones = new ArrayList<ComandoRobot>();
+        this.historialInstrucciones = new ArrayList<InstruccionRobot>();
     }
 
     public abstract void avanzar(int unidades);
@@ -36,9 +36,9 @@ public abstract class Robot {
     public void manejarObstaculo(){
         this.estrategiaObstaculo.manejarObstaculo(this);
     }
-    public boolean recorrer(List<ComandoRobot> instrucciones) {
-        this.historialInstrucciones = new ArrayList<ComandoRobot>();
-        for(ComandoRobot i : instrucciones) {
+    public boolean recorrer(List<InstruccionRobot> instrucciones) {
+        this.historialInstrucciones = new ArrayList<InstruccionRobot>();
+        for(InstruccionRobot i : instrucciones) {
             i.ejecutar(this);
             this.historialInstrucciones.add(i);
             if(this.obstaculizado) {
@@ -54,5 +54,8 @@ public abstract class Robot {
         for(int i = this.historialInstrucciones.size() - 1; i >= 0; i--) {
             this.historialInstrucciones.get(i).inversa(this);
         }
+    }
+    public InstruccionRobot ultimaInstruccion() {
+        return this.getHistorialInstrucciones().get(this.historialInstrucciones.size() - 1);
     }
 }

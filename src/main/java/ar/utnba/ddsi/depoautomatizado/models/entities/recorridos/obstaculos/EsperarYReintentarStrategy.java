@@ -12,16 +12,13 @@ public class EsperarYReintentarStrategy implements EstrategiaObstaculo {
 
   @Override
   public void manejarObstaculo(Robot robot) {
-    System.out.println("Esperando " + tiempoEspera + " unidades de tiempo...");
-    // Simula espera
     try {
-      Thread.sleep(tiempoEspera * 100L); // Opcional, simula el delay
+      Thread.sleep(tiempoEspera * 100L);
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
     }
-
-    System.out.println("Reintentando avanzar...");
-    robot.setObstaculizado(false); // Reintenta
+    robot.ultimaInstruccion().ejecutar(robot);
+    robot.setObstaculizado(false);
   }
 }
 

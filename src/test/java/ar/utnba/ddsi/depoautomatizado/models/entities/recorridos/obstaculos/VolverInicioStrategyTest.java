@@ -1,7 +1,7 @@
 package ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.obstaculos;
 
 import ar.utnba.ddsi.depoautomatizado.models.entities.robots.Robot;
-import ar.utnba.ddsi.depoautomatizado.models.entities.robots.comandos.*;
+import ar.utnba.ddsi.depoautomatizado.models.entities.robots.instrucciones.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -10,7 +10,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.List;
 
 public class VolverInicioStrategyTest {
-  private List<ComandoRobot> ida;
+  private List<InstruccionRobot> ida;
 
   @BeforeEach
   void setUp() {
@@ -46,7 +46,7 @@ public class VolverInicioStrategyTest {
         new ManejarPaquete(AccionConPaquete.DEJAR)
     );
 
-    List<ComandoRobot> vuelta = List.of(
+    List<InstruccionRobot> vuelta = List.of(
         new Girar(180),
         new Avanzar(5),
         new Avanzar(5),

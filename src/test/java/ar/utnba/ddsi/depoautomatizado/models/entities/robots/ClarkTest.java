@@ -3,7 +3,7 @@ package ar.utnba.ddsi.depoautomatizado.models.entities.robots;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.obstaculos.EstrategiaObstaculo;
-import ar.utnba.ddsi.depoautomatizado.models.entities.robots.comandos.ComandoRobot;
+import ar.utnba.ddsi.depoautomatizado.models.entities.robots.instrucciones.InstruccionRobot;
 import org.mockito.Mockito;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.doAnswer;
@@ -18,8 +18,8 @@ public class ClarkTest {
   private Clark clark;
 
   private EstrategiaObstaculo estrategiaMock;
-  private ComandoRobot comando1;
-  private ComandoRobot comando2;
+  private InstruccionRobot instruccion1;
+  private InstruccionRobot instruccion2;
 
   @BeforeEach
   void setUp() {
@@ -27,29 +27,29 @@ public class ClarkTest {
     estrategiaMock = Mockito.mock(EstrategiaObstaculo.class);
     clark.setEstrategiaObstaculo(estrategiaMock);
 
-    comando1 = Mockito.mock(ComandoRobot.class);
-    comando2 = Mockito.mock(ComandoRobot.class);
+    instruccion1 = Mockito.mock(InstruccionRobot.class);
+    instruccion2 = Mockito.mock(InstruccionRobot.class);
   }
 
   @Test
   void recorrer_sinObstaculo_ejecutaTodoYDevuelveTrue() {
     clark.setObstaculizado(false);
 
-    boolean resultado = clark.recorrer(List.of(comando1, comando2));
+    boolean resultado = clark.recorrer(List.of(instruccion1, instruccion2));
 
     assertTrue(resultado);
-    verify(comando1).ejecutar(clark);
-    verify(comando2).ejecutar(clark);
+    verify(instruccion1).ejecutar(clark);
+    verify(instruccion2).ejecutar(clark);
     verifyNoInteractions(estrategiaMock);
   }
 
   @Test
   void recorrer_conObstaculoYDetener_devuelveFalseYAplicaEstrategia() {
-    // Simulamos que se obstaculiza después del primer comando
+    // Simulamos que se obstaculiza después del primer instruccion
     doAnswer(invocation -> {
       clark.setObstaculizado(true);
       return null;
-    }).when(comando1).ejecutar(clark);
+    }).when(instruccion1).ejecutar(clark);
 
     // Estrategia decide detener
     doAnswer(invocation -> {
@@ -57,21 +57,21 @@ public class ClarkTest {
       return null;
     }).when(estrategiaMock).manejarObstaculo(clark);
 
-    boolean resultado = clark.recorrer(List.of(comando1, comando2));
+    boolean resultado = clark.recorrer(List.of(instruccion1, instruccion2));
 
     assertFalse(resultado);
     verify(estrategiaMock).manejarObstaculo(clark);
-    verify(comando1).ejecutar(clark);
-    verify(comando2, never()).ejecutar(clark); // No llega al segundo
+    verify(instruccion1).ejecutar(clark);
+    verify(instruccion2, never()).ejecutar(clark); // No llega al segundo
   }
 
   @Test
   void volverAlInicio_invocaInversasEnOrdenInverso() {
-    clark.getHistorialInstrucciones().addAll(List.of(comando1, comando2));
+    clark.getHistorialInstrucciones().addAll(List.of(instruccion1, instruccion2));
 
     clark.volverAlInicio();
 
-    verify(comando2).inversa(clark);
-    verify(comando1).inversa(clark);
+    verify(instruccion2).inversa(clark);
+    verify(instruccion1).inversa(clark);
   }
 }

@@ -5,7 +5,7 @@ import ar.utnba.ddsi.depoautomatizado.models.entities.mercaderias.Compartimiento
 import ar.utnba.ddsi.depoautomatizado.models.entities.mercaderias.Mercaderia;
 import ar.utnba.ddsi.depoautomatizado.models.entities.mercaderias.Posicion;
 import ar.utnba.ddsi.depoautomatizado.models.entities.robots.Robot;
-import ar.utnba.ddsi.depoautomatizado.models.entities.robots.comandos.*;
+import ar.utnba.ddsi.depoautomatizado.models.entities.robots.instrucciones.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
@@ -59,51 +59,51 @@ public class RecorridoTest {
 
   @Test
   void avanzarEjecutaAvanzarEnRobot() {
-    Avanzar comando = new Avanzar(5);
-    comando.ejecutar(robot);
+    Avanzar instruccion = new Avanzar(5);
+    instruccion.ejecutar(robot);
     verify(robot).avanzar(5);
 
-    comando.inversa(robot);
+    instruccion.inversa(robot);
     verify(robot).avanzar(-5);
   }
 
   @Test
   void elevarEjecutaElevarEnRobot() {
-    Elevar comando = new Elevar(3);
-    comando.ejecutar(robot);
+    Elevar instruccion = new Elevar(3);
+    instruccion.ejecutar(robot);
     verify(robot).elevar(3);
 
-    comando.inversa(robot);
+    instruccion.inversa(robot);
     verify(robot).elevar(-3);
   }
 
   @Test
   void girarEjecutaGirarEnRobot() {
-    Girar comando = new Girar(90);
-    comando.ejecutar(robot);
+    Girar instruccion = new Girar(90);
+    instruccion.ejecutar(robot);
     verify(robot).girar(90);
 
-    comando.inversa(robot);
+    instruccion.inversa(robot);
     verify(robot).girar(270); // 180 + 90
   }
 
   @Test
   void manejarPaqueteEjecutarYInversa_Dejar() {
-    ManejarPaquete comando = new ManejarPaquete(AccionConPaquete.DEJAR);
-    comando.ejecutar(robot);
+    ManejarPaquete instruccion = new ManejarPaquete(AccionConPaquete.DEJAR);
+    instruccion.ejecutar(robot);
     verify(robot).dejarPaquete();
 
-    comando.inversa(robot);
+    instruccion.inversa(robot);
     verify(robot).recogerPaquete();
   }
 
   @Test
   void manejarPaqueteEjecutarYInversa_Recoger() {
-    ManejarPaquete comando = new ManejarPaquete(AccionConPaquete.RECOGER);
-    comando.ejecutar(robot);
+    ManejarPaquete instruccion = new ManejarPaquete(AccionConPaquete.RECOGER);
+    instruccion.ejecutar(robot);
     verify(robot).recogerPaquete();
 
-    comando.inversa(robot);
+    instruccion.inversa(robot);
     verify(robot).dejarPaquete();
   }
 }

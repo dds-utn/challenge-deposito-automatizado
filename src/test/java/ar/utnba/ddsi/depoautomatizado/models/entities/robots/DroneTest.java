@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.obstaculos.EstrategiaObstaculo;
-import ar.utnba.ddsi.depoautomatizado.models.entities.robots.comandos.ComandoRobot;
+import ar.utnba.ddsi.depoautomatizado.models.entities.robots.instrucciones.InstruccionRobot;
 
 import java.util.List;
 
@@ -19,8 +19,8 @@ public class DroneTest {
   private Drone drone;
 
   private EstrategiaObstaculo estrategiaMock;
-  private ComandoRobot comando1;
-  private ComandoRobot comando2;
+  private InstruccionRobot instruccion1;
+  private InstruccionRobot instruccion2;
 
   @BeforeEach
   void setUp() {
@@ -28,29 +28,29 @@ public class DroneTest {
     estrategiaMock = Mockito.mock(EstrategiaObstaculo.class);
     drone.setEstrategiaObstaculo(estrategiaMock);
 
-    comando1 = Mockito.mock(ComandoRobot.class);
-    comando2 = Mockito.mock(ComandoRobot.class);
+    instruccion1 = Mockito.mock(InstruccionRobot.class);
+    instruccion2 = Mockito.mock(InstruccionRobot.class);
   }
 
   @Test
   void recorrer_sinObstaculo_ejecutaTodoYDevuelveTrue() {
     drone.setObstaculizado(false);
 
-    boolean resultado = drone.recorrer(List.of(comando1, comando2));
+    boolean resultado = drone.recorrer(List.of(instruccion1, instruccion2));
 
     assertTrue(resultado);
-    verify(comando1).ejecutar(drone);
-    verify(comando2).ejecutar(drone);
+    verify(instruccion1).ejecutar(drone);
+    verify(instruccion2).ejecutar(drone);
     verifyNoInteractions(estrategiaMock);
   }
 
   @Test
   void recorrer_conObstaculoYDetener_devuelveFalseYAplicaEstrategia() {
-    // Simulamos que se obstaculiza después del primer comando
+    // Simulamos que se obstaculiza después del primer instruccion
     doAnswer(invocation -> {
       drone.setObstaculizado(true);
       return null;
-    }).when(comando1).ejecutar(drone);
+    }).when(instruccion1).ejecutar(drone);
 
     // Estrategia decide detener
     doAnswer(invocation -> {
@@ -58,21 +58,21 @@ public class DroneTest {
       return null;
     }).when(estrategiaMock).manejarObstaculo(drone);
 
-    boolean resultado = drone.recorrer(List.of(comando1, comando2));
+    boolean resultado = drone.recorrer(List.of(instruccion1, instruccion2));
 
     assertFalse(resultado);
     verify(estrategiaMock).manejarObstaculo(drone);
-    verify(comando1).ejecutar(drone);
-    verify(comando2, never()).ejecutar(drone); // No llega al segundo
+    verify(instruccion1).ejecutar(drone);
+    verify(instruccion2, never()).ejecutar(drone); // No llega al segundo
   }
 
   @Test
   void volverAlInicio_invocaInversasEnOrdenInverso() {
-    drone.getHistorialInstrucciones().addAll(List.of(comando1, comando2));
+    drone.getHistorialInstrucciones().addAll(List.of(instruccion1, instruccion2));
 
     drone.volverAlInicio();
 
-    verify(comando2).inversa(drone);
-    verify(comando1).inversa(drone);
+    verify(instruccion2).inversa(drone);
+    verify(instruccion1).inversa(drone);
   }
 }

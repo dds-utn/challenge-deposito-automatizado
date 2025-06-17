@@ -1,8 +1,8 @@
-package ar.utnba.ddsi.depoautomatizado.models.entities.robots.comandos;
+package ar.utnba.ddsi.depoautomatizado.models.entities.robots.instrucciones;
 
 import ar.utnba.ddsi.depoautomatizado.models.entities.robots.Robot;
 
-public class Avanzar implements ComandoRobot {
+public class Avanzar implements InstruccionRobot {
   private final int pasos;
 
   public Avanzar(int pasos) {
