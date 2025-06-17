@@ -22,22 +22,24 @@ public class PedidosService {
     }
 
     public void atenderPedido(Pedido pedido) {
-        Robot robotLibre = this.repositorioRobots.buscarDisponible();
-        robotLibre.setDisponible(false);
+        while(!pedido.estaCompletado()) {
+            Robot robotLibre = this.repositorioRobots.buscarDisponible();
+            robotLibre.setDisponible(false);
 
-        this.repositorioRobots.actualizar(robotLibre);
+            this.repositorioRobots.actualizar(robotLibre);
 
-        robotLibre.setEstrategiaObstaculo(this.estrategiaObstaculo);
-        pedido.recogerMercaderiaPor(robotLibre);
+            robotLibre.setEstrategiaObstaculo(this.estrategiaObstaculo);
+            pedido.recogerMercaderiaPor(robotLibre);
 
-        robotLibre.setDisponible(true);
-        this.repositorioRobots.actualizar(robotLibre);
+            robotLibre.setDisponible(true);
+            this.repositorioRobots.actualizar(robotLibre);
+        }
 
         this.avisarATransportistaFinalizacionDe(pedido);
     }
 
     private void avisarATransportistaFinalizacionDe(Pedido pedido) {
-        //TODO: más adelante lo implementamos
+
     }
 
 

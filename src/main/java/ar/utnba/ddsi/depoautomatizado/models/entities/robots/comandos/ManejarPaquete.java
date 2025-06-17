@@ -15,13 +15,13 @@ public class ManejarPaquete implements ComandoRobot {
       robot.dejarPaquete();
     }
     else {
-      robot.recojerPaquete();
+      robot.recogerPaquete();
     }
   }
   @Override
   public void inversa(Robot robot) {
     if(accion.equals(AccionConPaquete.DEJAR)) {
-      robot.recojerPaquete();
+      robot.recogerPaquete();
     }
     else {
       robot.dejarPaquete();

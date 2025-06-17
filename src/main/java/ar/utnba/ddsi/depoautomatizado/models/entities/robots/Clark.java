@@ -18,7 +18,7 @@ public class Clark extends Robot {
 
     }
     @Override
-    public void recojerPaquete() {
+    public void recogerPaquete() {
 
     }
     @Override

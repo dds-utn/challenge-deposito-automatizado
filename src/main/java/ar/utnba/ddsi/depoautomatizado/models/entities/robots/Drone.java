@@ -18,7 +18,7 @@ public class Drone extends Robot {
 
     }
     @Override
-    public void recojerPaquete() {
+    public void recogerPaquete() {
 
     }
     @Override

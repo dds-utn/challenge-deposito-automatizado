@@ -32,9 +32,9 @@ public class Pedido {
     }
 
     public void recogerMercaderiaPor(Robot robot) {
-        this.mercaderias.forEach(mercaderia -> {
-            mercaderia.serRecogidaPor(robot);
-        });
-        this.marcarComoCompletado();
+        this.mercaderias.stream().filter(m -> !m.isFueRecogido()).toList().forEach(m -> m.serRecogidaPor(robot));
+        if(this.mercaderias.stream().allMatch(Mercaderia::isFueRecogido)) {
+            this.marcarComoCompletado();
+        }
     }
 }

@@ -14,23 +14,15 @@ public class Recorrido {
         instrucciones = new ArrayList<ComandoRobot>();
     }
 
-    public void ejecutarRecorrido(Robot robot) {
-        for(ComandoRobot comando : instrucciones) {
-            comando.ejecutar(robot);
-            if (robot.isObstaculizado()){
-                robot.manejarObstaculo();
-            }
-        }
+    public boolean ejecutarRecorrido(Robot robot) {
+        return robot.recorrer(instrucciones);
     }
 
-    public void agregarInstruccion(ComandoRobot comando) {
-        this.instrucciones.add(comando);
+    public void agregarInstruccion(ComandoRobot instruccion) {
+        this.instrucciones.add(instruccion);
     }
-
-    public List<ComandoRobot> volverAInicio() {
-        List<ComandoRobot> copiaInvertida= new ArrayList<>(this.instrucciones);
-        Collections.reverse(copiaInvertida);
-        return copiaInvertida;
+    public void agregarInstrucciones(List<ComandoRobot> instrucciones) {
+        this.instrucciones.addAll(instrucciones);
     }
 
 }
