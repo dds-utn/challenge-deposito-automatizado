@@ -1,0 +1,122 @@
+@startuml
+'https://plantuml.com/class-diagram
+class Pedido {
+    - id: String
+    - mercaderias: List<Mercaderia>
+    - completado: Boolean
+    + agregarMercaderia(Mercaderia mercaderia): void
+    + marcarComoCompletado(): void
+    + recogerMercaderiaPor(Robot robot): void
+}
+
+abstract class Robot {
+    - id: Long
+    - disponible: Boolean
+    - estrategiaObstaculo: EstrategiaObstaculo
+    + recogerPaquete(): void
+    + dejarPaquete(): void
+    + girar(Integer grados): void
+    + avanzar(Integer pasos): void
+    + elevar(Integer elevacion): void
+}
+
+class AdapterDrone extends Robot{
+    + recogerPaquete(): void
+    + dejarPaquete(): void
+    + girar(Integer grados): void
+    + avanzar(Integer pasos): void
+    + elevar(Integer elevacion): void
+}
+
+class AdapterClark extends Robot {
+    + recogerPaquete(): void
+    + dejarPaquete(): void
+    + girar(Integer grados): void
+    + avanzar(Integer pasos): void
+    + elevar(Integer elevacion): void
+}
+
+Pedido .. Robot
+Pedido -- "*" Mercaderia
+Robot -- EstrategiaObstaculo
+
+
+class Compartimiento {
+    - id: String
+    - recorrido: Recorrido
+    - posicion: Posicion
+}
+
+class Mercaderia {
+    - id: String
+    - descripcion: String
+    - compartimiento: Compartimiento
+    + serRecogidaPor(Robot robot): void
+}
+
+Mercaderia .. Robot
+
+class Posicion {
+    - x: int
+    - y: int
+    - z: int
+}
+Mercaderia -- Compartimiento
+Compartimiento -- Recorrido
+Compartimiento -- Posicion
+
+
+'RECORRIDOS
+
+class Recorrido {
+    - accionesPrerecogerMaterial: List<ComandoMovimiento>
+    - accionesPreentregaMaterial: List<ComandoMovimiento>
+
+    + agregarAccionPrerecoger(ComandoMovimiento accion): void
+
+    + agregarAccionPreentregar(ComandoMovimiento mov): void
+
+    + ejecutarRecorrido(Robot robot): void
+}
+
+Recorrido -- "*" ComandoMovimiento
+
+'MOVIMIENTOS
+abstract class ComandoMovimiento{
+    - Integer dato
+    # void operar(Robot robot, Integer dato)
+    + void accionar(Robot robot)
+    + void accionarInvertido(Robot robot)
+}
+
+class Avanzar extends ComandoMovimiento{
+    # void operar(Robot robot, Integer dato)
+}
+
+class Elevar extends ComandoMovimiento{
+    # void operar(Robot robot, Integer dato)
+}
+
+class Rotar extends ComandoMovimiento{
+    # void operar(Robot robot, Integer dato)
+}
+
+'OBSTACULOS
+interface EstrategiaObstaculo {
+    + manejarObstaculo(Robot robot) throws InterruptedException: void
+}
+
+class EsquivarObstaculoStrategy implements EstrategiaObstaculo {
+    - cantidadDeTiempo: Long
+    + manejarObstaculo(Robot robot) throws InterruptedException: void
+}
+
+class LlamarMantenimientoStrategy implements EstrategiaObstaculo {
+    manejarObstaculo(Robot robot): void
+}
+
+class VolverInicioStrategy implements EstrategiaObstaculo {
+    + manejarObstaculo(Robot robot): void
+}
+
+@enduml
