@@ -7,11 +7,17 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class Desplazarse implements ComandoRobot{
-    private Posicion posicion;
+public class Avanzar implements ComandoRobot{
+    private int unidadesAMoverse;
 
     @Override
     public void ejecutar(Robot robot) {
-        robot.desplazarse(posicion);
+        robot.almacenarComando(this);
+        robot.intentarAvanzar(unidadesAMoverse);
+    }
+
+    @Override
+    public void ejecutarInvertido(Robot robot) {
+        robot.intentarAvanzar(-unidadesAMoverse);
     }
 }

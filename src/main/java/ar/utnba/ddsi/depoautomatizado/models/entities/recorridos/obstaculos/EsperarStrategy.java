@@ -11,7 +11,7 @@ public class EsperarStrategy implements EstrategiaObstaculo{
     public void manejarObstaculo(Robot robot) {
         try {
             TimeUnit.SECONDS.sleep(tiempoAEsperar);
-            //desplazarse
+            robot.reintentarUltimoComando();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

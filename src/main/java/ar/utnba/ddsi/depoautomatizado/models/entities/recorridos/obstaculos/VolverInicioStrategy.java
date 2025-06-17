@@ -6,6 +6,6 @@ public class VolverInicioStrategy implements EstrategiaObstaculo {
     
     @Override
     public void manejarObstaculo(Robot robot) {
-        robot.desplazarse(robot.getPosicionDescanso());
+        robot.volverAlInicio();
     }
 } 

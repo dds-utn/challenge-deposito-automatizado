@@ -8,10 +8,14 @@ public class Drone extends Robot {
         super(id);
     }
 
-    public boolean desplazarse(Posicion nuevaPosicion){
+    public boolean avanzar(int nuevaPosicion){
         return true;
         //TODO
     };
+
+    public void elevar(int unidadesAElevarse){
+        //TODO
+    }
 
     public void agarrarMercaderia(){
         //TODO
@@ -22,6 +26,10 @@ public class Drone extends Robot {
     };
 
     public void esquivarObstaculo(){
+        //TODO
+    };
+
+    public void girar(int anguloRotacion){
         //TODO
     };
 }

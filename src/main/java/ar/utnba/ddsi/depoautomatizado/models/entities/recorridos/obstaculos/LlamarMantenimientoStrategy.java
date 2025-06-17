@@ -6,6 +6,6 @@ public class LlamarMantenimientoStrategy implements EstrategiaObstaculo {
     
     @Override
     public void manejarObstaculo(Robot robot) {
-        //TODO
+        //TODO llamar a el objeto que gestione las llamadas/pedidos de mantenimiento
     }
 } 
