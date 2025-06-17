@@ -3,6 +3,7 @@ package ar.utnba.ddsi.depoautomatizado.models.entities.mercaderias;
 import ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.Recorrido;
 import ar.utnba.ddsi.depoautomatizado.models.entities.robots.Robot;
 import ar.utnba.ddsi.depoautomatizado.models.entities.robots.comandos.ComandoRobot;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -34,30 +35,13 @@ class MercaderiaTest {
   }
 
   @Test
-  void serRecogidaPorEjecutaRecorridoYComandoSobreRobot() {
+  void serRecogidaPorEjecutaRecorridoSobreRobot() {
     // Simular que no hay obstáculo
     when(robot.isObstaculizado()).thenReturn(false);
 
     // Acción
     mercaderia.serRecogidaPor(robot);
 
-    // Verificar que el comando fue ejecutado una vez
-    verify(comando, times(1)).ejecutar(robot);
-
-    // Verificar que no se llamó a manejar obstáculo
-    verify(robot, never()).manejarObstaculo();
-  }
-
-  @Test
-  void serRecogidaPorConObstaculoInvocaManejarObstaculo() {
-    // Simular que hay obstáculo
-    when(robot.isObstaculizado()).thenReturn(true);
-
-    // Acción
-    mercaderia.serRecogidaPor(robot);
-
-    // Verificar ejecución normal y manejo de obstáculo
-    verify(comando).ejecutar(robot);
-    verify(robot).manejarObstaculo();
+    Mockito.verify(robot, Mockito.times(1)).recorrer(List.of(comando));
   }
 }

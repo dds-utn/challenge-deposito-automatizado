@@ -1,26 +1,16 @@
 package ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.obstaculos;
 
-import ar.utnba.ddsi.depoautomatizado.models.entities.Pedido;
-import ar.utnba.ddsi.depoautomatizado.models.entities.mercaderias.Compartimiento;
-import ar.utnba.ddsi.depoautomatizado.models.entities.mercaderias.Mercaderia;
-import ar.utnba.ddsi.depoautomatizado.models.entities.mercaderias.Posicion;
-import ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.Recorrido;
 import ar.utnba.ddsi.depoautomatizado.models.entities.robots.Robot;
 import ar.utnba.ddsi.depoautomatizado.models.entities.robots.comandos.*;
-import ar.utnba.ddsi.depoautomatizado.repositories.RepositorioDeRobots;
-import ar.utnba.ddsi.depoautomatizado.services.PedidosService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.List;
 
-public class VolverInicioStrategyTEST {
+public class VolverInicioStrategyTest {
   private List<ComandoRobot> ida;
-  private List<ComandoRobot> vuelta;
 
   @BeforeEach
   void setUp() {
@@ -56,7 +46,7 @@ public class VolverInicioStrategyTEST {
         new ManejarPaquete(AccionConPaquete.DEJAR)
     );
 
-    vuelta = List.of(
+    List<ComandoRobot> vuelta = List.of(
         new Girar(180),
         new Avanzar(5),
         new Avanzar(5),
@@ -81,5 +71,4 @@ public class VolverInicioStrategyTEST {
     Mockito.verify(robot).volverAlInicio();
     Mockito.verify(robot).setDetener(true);
   }
-
 }
