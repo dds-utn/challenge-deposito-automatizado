@@ -5,6 +5,11 @@ import ar.utnba.ddsi.depoautomatizado.models.entities.mercaderias.Compartimiento
 import ar.utnba.ddsi.depoautomatizado.models.entities.mercaderias.Mercaderia;
 import ar.utnba.ddsi.depoautomatizado.models.entities.mercaderias.Posicion;
 import ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.Recorrido;
+import ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.comandos.Avanzar;
+import ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.comandos.Comando;
+import ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.comandos.DejarPaquete;
+import ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.comandos.Girar;
+import ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.comandos.RecogerPaquete;
 import ar.utnba.ddsi.depoautomatizado.models.entities.robots.Clark;
 import ar.utnba.ddsi.depoautomatizado.models.entities.robots.Drone;
 import ar.utnba.ddsi.depoautomatizado.repositories.RepositorioDeRobots;
@@ -42,8 +47,23 @@ class PedidosServiceTest {
         compartimientos.add(new Compartimiento("C2", new Posicion(2, 2, 2)));
         
         // Configuración de recorridos
-        Recorrido recorrido1 = new Recorrido();
-        Recorrido recorrido2 = new Recorrido();
+        List<Comando> comandos1 = new ArrayList<Comando>();
+        comandos1.add(new Avanzar(10));
+        comandos1.add(new Girar(90));
+        comandos1.add(new RecogerPaquete());
+        comandos1.add(new Girar(90));
+        comandos1.add(new Avanzar(10));
+        comandos1.add(new DejarPaquete());
+
+        List<Comando> comandos2 = new ArrayList<Comando>();
+        comandos2.add(new Girar(360));
+        comandos2.add(new Avanzar(3));
+        comandos2.add(new Girar(90));
+        comandos2.add(new Avanzar(3));
+        comandos2.add(new Girar(90));
+
+        Recorrido recorrido1 = new Recorrido(comandos1);
+        Recorrido recorrido2 = new Recorrido(comandos2);
         compartimientos.get(0).setRecorrido(recorrido1);
         compartimientos.get(1).setRecorrido(recorrido2);
         
