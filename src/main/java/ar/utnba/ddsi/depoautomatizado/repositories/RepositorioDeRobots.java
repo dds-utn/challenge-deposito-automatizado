@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public class RepositorioDeRobots {
-    private List<Robot> robots;
+    private final List<Robot> robots;
 
     public RepositorioDeRobots() {
         this.robots = new ArrayList<>();

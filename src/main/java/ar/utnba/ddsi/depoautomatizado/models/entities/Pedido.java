@@ -9,8 +9,8 @@ import java.util.List;
 
 @Getter
 public class Pedido {
-    private String id;
-    private List<Mercaderia> mercaderias;
+    private final String id;
+    private final List<Mercaderia> mercaderias;
     private boolean completado;
     
     public Pedido(String id) {
