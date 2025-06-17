@@ -1,7 +1,8 @@
 package ar.utnba.ddsi.depoautomatizado.models.entities.recorridos;
 
-import ar.utnba.ddsi.depoautomatizado.models.entities.robots.Robot;
 import ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.movimientos.ComandoMovimiento;
+import ar.utnba.ddsi.depoautomatizado.models.entities.robots.Robot;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

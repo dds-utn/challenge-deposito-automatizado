@@ -2,7 +2,7 @@ package ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.movimientos;
 
 import ar.utnba.ddsi.depoautomatizado.models.entities.robots.Robot;
 
-public class Elevar extends ComandoMovimiento{
+public class Elevar extends ComandoMovimiento {
   public Elevar(Integer dato) {
     super(dato);
   }

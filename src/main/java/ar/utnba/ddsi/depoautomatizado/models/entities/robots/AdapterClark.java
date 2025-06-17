@@ -1,8 +1,8 @@
 package ar.utnba.ddsi.depoautomatizado.models.entities.robots;
 
-public class Drone extends Robot {
+public class AdapterClark extends Robot {
     
-    public Drone(Long id) {
+    public AdapterClark(Long id) {
         super(id);
     }
 
