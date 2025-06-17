@@ -8,9 +8,9 @@ import lombok.Setter;
 @Setter
 public class Compartimiento {
     private String id;
-    private Recorrido recorrido;
     private Posicion posicion;
-    
+    private Recorrido recorrido;
+
     public Compartimiento(String id, Posicion posicion) {
         this.id = id;
         this.posicion = posicion;
