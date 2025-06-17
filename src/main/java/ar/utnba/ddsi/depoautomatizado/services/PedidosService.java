@@ -32,7 +32,9 @@ public class PedidosService {
         this.repositorioRobots.actualizar(robotLibre);
 
         robotLibre.setEstrategiaObstaculo(this.estrategiaObstaculo);
+
         pedido.recogerMercaderiaPor(robotLibre);
+
         robotLibre.setDisponible(true);
         this.repositorioRobots.actualizar(robotLibre);
 
