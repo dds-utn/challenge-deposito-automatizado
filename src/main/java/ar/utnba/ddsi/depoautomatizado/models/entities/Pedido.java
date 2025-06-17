@@ -9,8 +9,8 @@ import java.util.List;
 
 @Getter
 public class Pedido {
-    private String id;
-    private List<Mercaderia> mercaderias;
+    private final String id;
+    private final List<Mercaderia> mercaderias;
     private boolean completado;
     
     public Pedido(String id) {
@@ -32,9 +32,9 @@ public class Pedido {
     }
 
     public void recogerMercaderiaPor(Robot robot) {
-        this.mercaderias.forEach(mercaderia -> {
-            mercaderia.serRecogidaPor(robot);
-        });
-        this.marcarComoCompletado();
+        this.mercaderias.stream().filter(m -> !m.isFueRecogido()).toList().forEach(m -> m.serRecogidaPor(robot));
+        if(this.mercaderias.stream().allMatch(Mercaderia::isFueRecogido)) {
+            this.marcarComoCompletado();
+        }
     }
 }

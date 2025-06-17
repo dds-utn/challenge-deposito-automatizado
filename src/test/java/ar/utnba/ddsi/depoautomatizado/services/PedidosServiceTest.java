@@ -7,6 +7,7 @@ import ar.utnba.ddsi.depoautomatizado.models.entities.mercaderias.Posicion;
 import ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.Recorrido;
 import ar.utnba.ddsi.depoautomatizado.models.entities.robots.Clark;
 import ar.utnba.ddsi.depoautomatizado.models.entities.robots.Drone;
+import ar.utnba.ddsi.depoautomatizado.models.entities.robots.instrucciones.*;
 import ar.utnba.ddsi.depoautomatizado.repositories.RepositorioDeRobots;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,18 +36,100 @@ class PedidosServiceTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        
+
         // Configuración de compartimientos
         compartimientos = new ArrayList<>();
         compartimientos.add(new Compartimiento("C1", new Posicion(1, 1, 1)));
         compartimientos.add(new Compartimiento("C2", new Posicion(2, 2, 2)));
-        
+
         // Configuración de recorridos
+
+         /*
+        IDA:
+                      M
+                 →   ↑ ↓  →   →   → F
+                ↑
+                I
+
+        VUELTA:
+                      M
+                 ←    ←   ←   ←   ← F
+                ↓
+                I
+        */
         Recorrido recorrido1 = new Recorrido();
+        List<InstruccionRobot> instrucciones1 = List.of(
+            new Avanzar(5),
+            new Girar(90),
+            new Avanzar(5),
+            new Girar(-90),
+            new Avanzar(5),
+            new ManejarPaquete(AccionConPaquete.RECOGER),
+            new Girar(180),
+            new Avanzar(5),
+            new Girar(-90),
+            new Avanzar(5),
+            new Avanzar(5),
+            new Avanzar(5),
+            new Avanzar(5),
+            new ManejarPaquete(AccionConPaquete.DEJAR),
+            new Girar(180),
+            new Avanzar(5),
+            new Avanzar(5),
+            new Avanzar(5),
+            new Avanzar(5),
+            new Avanzar(5),
+            new Girar(-90),
+            new Avanzar(5),
+            new Girar(180)
+        );
+        recorrido1.agregarInstrucciones(instrucciones1);
+
+
+         /*
+        IDA:
+                              M
+                 →   →   →   ↑ ↓   → F
+                ↑
+                I
+
+        VUELTA:
+                              M
+                 ←    ←   ←   ←   ← F
+                ↓
+                I
+        */
         Recorrido recorrido2 = new Recorrido();
+        List<InstruccionRobot> instrucciones2 = List.of(
+            new Avanzar(5),
+            new Girar(90),
+            new Avanzar(5),
+            new Girar(-90),
+            new Avanzar(5),
+            new Avanzar(5),
+            new Avanzar(5),
+            new ManejarPaquete(AccionConPaquete.RECOGER),
+            new Girar(180),
+            new Avanzar(5),
+            new Girar(-90),
+            new Avanzar(5),
+            new Avanzar(5),
+            new ManejarPaquete(AccionConPaquete.DEJAR),
+            new Girar(180),
+            new Avanzar(5),
+            new Avanzar(5),
+            new Avanzar(5),
+            new Avanzar(5),
+            new Avanzar(5),
+            new Girar(-90),
+            new Avanzar(5),
+            new Girar(180)
+        );
+        recorrido2.agregarInstrucciones(instrucciones2);
+
         compartimientos.get(0).setRecorrido(recorrido1);
         compartimientos.get(1).setRecorrido(recorrido2);
-        
+
         // Configuración de mercaderías
         mercaderias = new ArrayList<>();
         Mercaderia mercaderia1 = new Mercaderia("M1", "Producto 1");
@@ -55,7 +138,7 @@ class PedidosServiceTest {
         mercaderia2.setCompartimiento(compartimientos.get(1));
         mercaderias.add(mercaderia1);
         mercaderias.add(mercaderia2);
-        
+
         // Configuración del pedido
         pedido = new Pedido("PED-001");
         mercaderias.forEach(pedido::agregarMercaderia);

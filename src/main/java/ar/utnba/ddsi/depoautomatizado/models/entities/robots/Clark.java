@@ -5,6 +5,28 @@ public class Clark extends Robot {
     public Clark(Long id) {
         super(id);
     }
+    @Override
+    public void avanzar(int unidades){
 
-    //TODO
-} 
+    }
+    @Override
+    public void girar(int grados) {
+
+    }
+    @Override
+    public void elevar(int unidades){
+
+    }
+    @Override
+    public void recogerPaquete() {
+
+    }
+    @Override
+    public void dejarPaquete(){
+
+    }
+    @Override
+    public void manejarObstaculo() {
+
+    }
+}

@@ -6,6 +6,6 @@ public class EsquivarObstaculoStrategy implements EstrategiaObstaculo {
     
     @Override
     public void manejarObstaculo(Robot robot) {
-        //TODO
+        robot.manejarObstaculo();
     }
 } 
