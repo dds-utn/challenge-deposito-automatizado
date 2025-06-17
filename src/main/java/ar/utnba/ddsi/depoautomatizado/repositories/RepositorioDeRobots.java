@@ -1,7 +1,7 @@
 package ar.utnba.ddsi.depoautomatizado.repositories;
 
-import ar.utnba.ddsi.depoautomatizado.models.entities.robots.Clark;
-import ar.utnba.ddsi.depoautomatizado.models.entities.robots.Drone;
+import ar.utnba.ddsi.depoautomatizado.models.entities.robots.AdapterClark;
+import ar.utnba.ddsi.depoautomatizado.models.entities.robots.AdapterDrone;
 import ar.utnba.ddsi.depoautomatizado.models.entities.robots.Robot;
 import org.springframework.stereotype.Repository;
 
@@ -14,7 +14,7 @@ public class RepositorioDeRobots {
 
     public RepositorioDeRobots() {
         this.robots = new ArrayList<>();
-        this.robots.addAll(List.of(new Clark(1L), new Clark(2L), new Drone(3L)));
+        this.robots.addAll(List.of(new AdapterClark(1L), new AdapterClark(2L), new AdapterDrone(3L)));
     }
 
     public Robot buscarDisponible() {

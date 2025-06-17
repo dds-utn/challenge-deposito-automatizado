@@ -5,8 +5,10 @@ import ar.utnba.ddsi.depoautomatizado.models.entities.mercaderias.Compartimiento
 import ar.utnba.ddsi.depoautomatizado.models.entities.mercaderias.Mercaderia;
 import ar.utnba.ddsi.depoautomatizado.models.entities.mercaderias.Posicion;
 import ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.Recorrido;
-import ar.utnba.ddsi.depoautomatizado.models.entities.robots.Clark;
-import ar.utnba.ddsi.depoautomatizado.models.entities.robots.Drone;
+import ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.movimientos.Avanzar;
+import ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.movimientos.Girar;
+import ar.utnba.ddsi.depoautomatizado.models.entities.robots.AdapterClark;
+import ar.utnba.ddsi.depoautomatizado.models.entities.robots.AdapterDrone;
 import ar.utnba.ddsi.depoautomatizado.repositories.RepositorioDeRobots;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -46,6 +48,17 @@ class PedidosServiceTest {
         Recorrido recorrido2 = new Recorrido();
         compartimientos.get(0).setRecorrido(recorrido1);
         compartimientos.get(1).setRecorrido(recorrido2);
+        recorrido2.agregarAccionPrerecoger(new Avanzar(10));
+        recorrido2.agregarAccionPrerecoger(new Girar(-90));
+        recorrido2.agregarAccionPrerecoger( new Avanzar(10));
+        recorrido2.agregarAccionPreentregar( new Avanzar(10));
+
+        recorrido1.agregarAccionPrerecoger(new Avanzar(10));
+        recorrido1.agregarAccionPrerecoger(new Girar(-90));
+        recorrido1.agregarAccionPrerecoger( new Avanzar(5));
+        recorrido1.agregarAccionPreentregar( new Avanzar(15));
+
+
         
         // Configuración de mercaderías
         mercaderias = new ArrayList<>();
@@ -64,30 +77,30 @@ class PedidosServiceTest {
     @Test
     void atenderPedidoConClark() {
         // Arrange
-        Clark clark = new Clark(1L);
-        when(repositorioRobots.buscarDisponible()).thenReturn(clark);
+        AdapterClark adapterClark = new AdapterClark(1L);
+        when(repositorioRobots.buscarDisponible()).thenReturn(adapterClark);
 
         // Act
         pedidosService.atenderPedido(pedido);
 
         // Assert
         verify(repositorioRobots).buscarDisponible();
-        Assertions.assertTrue(clark.isDisponible());
+        Assertions.assertTrue(adapterClark.isDisponible());
         Assertions.assertTrue(pedido.estaCompletado());
     }
 
     @Test
     void atenderPedidoConDrone() {
         // Arrange
-        Drone drone = new Drone(1L);
-        when(repositorioRobots.buscarDisponible()).thenReturn(drone);
+        AdapterDrone adapterDrone = new AdapterDrone(1L);
+        when(repositorioRobots.buscarDisponible()).thenReturn(adapterDrone);
 
         // Act
         pedidosService.atenderPedido(pedido);
 
         // Assert
         verify(repositorioRobots).buscarDisponible();
-        Assertions.assertTrue(drone.isDisponible());
+        Assertions.assertTrue(adapterDrone.isDisponible());
         Assertions.assertTrue(pedido.estaCompletado());
     }
 } 
