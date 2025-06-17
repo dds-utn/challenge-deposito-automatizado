@@ -16,7 +16,7 @@ public class Transportista implements IObserver{
     }
 
     @Override
-    public void notificarFinalizaCon(Pedido pedido) {
+    public void notificarFinalizacion(Pedido pedido) {
         adapter.notificar(pedido);
     }
 }
