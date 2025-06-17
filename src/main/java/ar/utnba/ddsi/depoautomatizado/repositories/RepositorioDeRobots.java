@@ -9,10 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class RepositorioDeRobots {
+public class RepositorioDeRobots implements IRepositorioDeRobots{
     private List<Robot> robots;
 
-    public RepositorioDeRobots() {
+    public void RepositorioDeRobots() {
         this.robots = new ArrayList<>();
         this.robots.addAll(List.of(new Clark(1L), new Clark(2L), new Drone(3L)));
     }
