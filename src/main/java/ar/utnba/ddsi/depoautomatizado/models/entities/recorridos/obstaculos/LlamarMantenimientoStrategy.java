@@ -6,6 +6,6 @@ public class LlamarMantenimientoStrategy implements EstrategiaObstaculo {
     
     @Override
     public void manejarObstaculo(Robot robot) {
-        //TODO
+        // TODO: Broker con Publisher Subscriber
     }
 } 
