@@ -5,25 +5,36 @@ import ar.utnba.ddsi.depoautomatizado.models.entities.mercaderias.Compartimiento
 import ar.utnba.ddsi.depoautomatizado.models.entities.mercaderias.Mercaderia;
 import ar.utnba.ddsi.depoautomatizado.models.entities.mercaderias.Posicion;
 import ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.Recorrido;
+import ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.obstaculos.VolverInicioStrategy;
 import ar.utnba.ddsi.depoautomatizado.models.entities.robots.Clark;
 import ar.utnba.ddsi.depoautomatizado.models.entities.robots.Drone;
 import ar.utnba.ddsi.depoautomatizado.repositories.RepositorioDeRobots;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.stubbing.OngoingStubbing;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
 
+@RunWith(SpringJUnit4ClassRunner.class)
 class PedidosServiceTest {
 
     @Mock
     private RepositorioDeRobots repositorioRobots;
+
+    @Mock
+    private EstrategiaObstaculoFacade estrategiaObstaculoFacade;
+
+    @Mock
+    private TransportistaBroker transportistaBroker;
 
     @InjectMocks
     private PedidosService pedidosService;
@@ -35,18 +46,18 @@ class PedidosServiceTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        
+
         // Configuración de compartimientos
         compartimientos = new ArrayList<>();
         compartimientos.add(new Compartimiento("C1", new Posicion(1, 1, 1)));
         compartimientos.add(new Compartimiento("C2", new Posicion(2, 2, 2)));
-        
+
         // Configuración de recorridos
         Recorrido recorrido1 = new Recorrido();
         Recorrido recorrido2 = new Recorrido();
         compartimientos.get(0).setRecorrido(recorrido1);
         compartimientos.get(1).setRecorrido(recorrido2);
-        
+
         // Configuración de mercaderías
         mercaderias = new ArrayList<>();
         Mercaderia mercaderia1 = new Mercaderia("M1", "Producto 1");
@@ -55,7 +66,7 @@ class PedidosServiceTest {
         mercaderia2.setCompartimiento(compartimientos.get(1));
         mercaderias.add(mercaderia1);
         mercaderias.add(mercaderia2);
-        
+
         // Configuración del pedido
         pedido = new Pedido("PED-001");
         mercaderias.forEach(pedido::agregarMercaderia);
@@ -89,5 +100,28 @@ class PedidosServiceTest {
         verify(repositorioRobots).buscarDisponible();
         Assertions.assertTrue(drone.isDisponible());
         Assertions.assertTrue(pedido.estaCompletado());
+    }
+
+    @Test
+    void atenderPedidoConDroneYObstaculo() {
+        VolverInicioStrategy failout = mock();
+        when(estrategiaObstaculoFacade.getEstrategia()).thenReturn(failout);
+
+        // Arrange
+        Drone drone = spy(new Drone(1L));
+        when(repositorioRobots.buscarDisponible()).thenReturn(drone);
+
+        doThrow(new RuntimeException("")).when(drone).moverAPosicion(any(Posicion.class));
+
+
+        // Act
+        pedidosService.atenderPedido(pedido);
+
+
+        // Assert
+        verify(repositorioRobots).buscarDisponible();
+        verify(drone).manejarObstaculo();
+        Assertions.assertFalse(drone.isDisponible());
+        Assertions.assertFalse(pedido.estaCompletado());
     }
 } 

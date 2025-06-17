@@ -4,6 +4,7 @@ import ar.utnba.ddsi.depoautomatizado.models.entities.Pedido;
 import ar.utnba.ddsi.depoautomatizado.models.entities.robots.Robot;
 import ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.obstaculos.EstrategiaObstaculo;
 import ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.obstaculos.VolverInicioStrategy;
+import ar.utnba.ddsi.depoautomatizado.repositories.IRepositorioDeRobots;
 import ar.utnba.ddsi.depoautomatizado.repositories.RepositorioDeRobots;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,14 +12,21 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PedidosService {
-    @Autowired
-    private RepositorioDeRobots repositorioRobots;
+    private IRepositorioDeRobots repositorioRobots;
+
+    private IEstrategiaObstaculoFacade estrategiaFacade;
 
     @Setter
     private EstrategiaObstaculo estrategiaObstaculo;
 
-    PedidosService() {
-        this.estrategiaObstaculo = new VolverInicioStrategy();
+    private ITransportistaBroker transportistaBroker;
+
+    public PedidosService(IRepositorioDeRobots repositorioRobots, IEstrategiaObstaculoFacade estrategiaFacade, ITransportistaBroker transportistaBroker) {
+        this.repositorioRobots = repositorioRobots;
+        this.estrategiaFacade = estrategiaFacade;
+        this.transportistaBroker = transportistaBroker;
+
+        this.estrategiaObstaculo = estrategiaFacade.getEstrategia();
     }
 
     public void atenderPedido(Pedido pedido) {
@@ -30,14 +38,18 @@ public class PedidosService {
         robotLibre.setEstrategiaObstaculo(this.estrategiaObstaculo);
         pedido.recogerMercaderiaPor(robotLibre);
 
-        robotLibre.setDisponible(true);
-        this.repositorioRobots.actualizar(robotLibre);
+        if (pedido.estaCompletado()) {
+            robotLibre.setDisponible(true);
+            this.repositorioRobots.actualizar(robotLibre);
 
-        this.avisarATransportistaFinalizacionDe(pedido);
+            this.avisarATransportistaFinalizacionDe(pedido);
+        } else {
+            // TODO: para después
+        }
     }
 
     private void avisarATransportistaFinalizacionDe(Pedido pedido) {
-        //TODO: más adelante lo implementamos
+        transportistaBroker.anunciarPedidoDisponible(pedido);
     }
 
 
