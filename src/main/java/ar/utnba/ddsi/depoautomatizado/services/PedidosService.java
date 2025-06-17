@@ -17,11 +17,15 @@ public class PedidosService {
     @Setter
     private EstrategiaObstaculo estrategiaObstaculo;
 
+
+
     PedidosService() {
         this.estrategiaObstaculo = new VolverInicioStrategy();
-    }
+    } //?No entiendo la idea de hardcodear la estrategia así. En realidad haría falta tener un controller que permita pedir la atención de un pedido con un robot que tenga x estrategia.
 
-    public void atenderPedido(Pedido pedido) {
+    //TODO: Crear (y persistir pedidos)
+
+    public void atenderPedido(Pedido pedido) { //* Se infiere que el pedido ya viene con el/los observadores asignados. La clase transportista existe para permitir crear los pedidos en sí.
         Robot robotLibre = this.repositorioRobots.buscarDisponible();
         robotLibre.setDisponible(false);
 
@@ -29,7 +33,6 @@ public class PedidosService {
 
         robotLibre.setEstrategiaObstaculo(this.estrategiaObstaculo);
         pedido.recogerMercaderiaPor(robotLibre);
-
         robotLibre.setDisponible(true);
         this.repositorioRobots.actualizar(robotLibre);
 
@@ -37,8 +40,14 @@ public class PedidosService {
     }
 
     private void avisarATransportistaFinalizacionDe(Pedido pedido) {
-        //TODO: más adelante lo implementamos
-    }
+        if (pedido.estaCompletado()){
+            //Avisar al transportista que el pedido ha sido completado. Esto se realiza mediante un mecanismo push based utilizando un patrón broker. El transpostista está suscrito a un topic de finalización de pedidos y recibe una notificación cuando el pedido es completado.
+            //Se uiliza un patron observer para notificar al transportista de la finalización del pedido. A su vez, se implementa un adapter para que el transportista pueda recibir la notificación de forma asíncrona.
 
+            pedido.getObservers().forEach(observer -> {
+                observer.notificarFinalizaCon(pedido);
+            });
+        }
+    }
 
 }
