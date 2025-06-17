@@ -31,6 +31,7 @@ public class PedidosService {
         pedido.recogerMercaderiaPor(robotLibre);
 
         robotLibre.setDisponible(true);
+        robotLibre.limpiarHistorialComandos();
         this.repositorioRobots.actualizar(robotLibre);
 
         this.avisarATransportistaFinalizacionDe(pedido);

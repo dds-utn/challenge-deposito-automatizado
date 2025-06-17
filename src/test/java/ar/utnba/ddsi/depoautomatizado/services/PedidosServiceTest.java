@@ -4,6 +4,11 @@ import ar.utnba.ddsi.depoautomatizado.models.entities.Pedido;
 import ar.utnba.ddsi.depoautomatizado.models.entities.mercaderias.Compartimiento;
 import ar.utnba.ddsi.depoautomatizado.models.entities.mercaderias.Mercaderia;
 import ar.utnba.ddsi.depoautomatizado.models.entities.mercaderias.Posicion;
+import ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.Comando;
+import ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.Comandos.AgarrarComando;
+import ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.Comandos.AvanzarComando;
+import ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.Comandos.GirarComando;
+import ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.Comandos.SoltarComando;
 import ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.Recorrido;
 import ar.utnba.ddsi.depoautomatizado.models.entities.robots.Clark;
 import ar.utnba.ddsi.depoautomatizado.models.entities.robots.Drone;
@@ -42,8 +47,27 @@ class PedidosServiceTest {
         compartimientos.add(new Compartimiento("C2", new Posicion(2, 2, 2)));
         
         // Configuración de recorridos
-        Recorrido recorrido1 = new Recorrido();
-        Recorrido recorrido2 = new Recorrido();
+        List<Comando> comandos = List.of(
+                new AvanzarComando(10),
+                new GirarComando(-90),
+                new AvanzarComando(5),
+                new AgarrarComando(),
+                new AvanzarComando(10),
+                new SoltarComando()
+        );
+
+        Recorrido recorrido1 = new Recorrido(comandos);
+
+        List<Comando> comandos2 = List.of(
+                new AvanzarComando(10),
+                new GirarComando(-90),
+                new AvanzarComando(5),
+                new AgarrarComando(),
+                new AvanzarComando(10),
+                new SoltarComando()
+        );
+
+        Recorrido recorrido2 = new Recorrido(comandos);
         compartimientos.get(0).setRecorrido(recorrido1);
         compartimientos.get(1).setRecorrido(recorrido2);
         
