@@ -7,7 +7,6 @@ public class VolverInicioStrategy implements EstrategiaObstaculo {
     
     @Override
     public void manejarObstaculo(Robot robot) {
-        robot.girar(180);
         robot.volverAlInicio();
         throw new DetenerRecorridoException("VolverAlInicio");
     }
