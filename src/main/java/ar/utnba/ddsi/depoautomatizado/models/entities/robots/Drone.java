@@ -6,5 +6,13 @@ public class Drone extends Robot {
         super(id);
     }
 
-    //TODO
+    public void avanzar(Integer distancia){}
+
+    public void girar(Integer grados){}
+
+    public void elevar(Integer altura){}
+
+    public void recogerPaquete(){}
+
+    public void dejarPaquete(){}
 } 

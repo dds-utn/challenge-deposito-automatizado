@@ -5,8 +5,14 @@ import ar.utnba.ddsi.depoautomatizado.models.entities.mercaderias.Compartimiento
 import ar.utnba.ddsi.depoautomatizado.models.entities.mercaderias.Mercaderia;
 import ar.utnba.ddsi.depoautomatizado.models.entities.mercaderias.Posicion;
 import ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.Recorrido;
+import ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.commands.AvanzarCommand;
+import ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.commands.Command;
+import ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.commands.GirarCommand;
+import ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.commands.SoltarMercaderiaCommand;
+import ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.obstaculos.EsquivarObstaculoStrategy;
 import ar.utnba.ddsi.depoautomatizado.models.entities.robots.Clark;
 import ar.utnba.ddsi.depoautomatizado.models.entities.robots.Drone;
+import ar.utnba.ddsi.depoautomatizado.models.entities.robots.Robot;
 import ar.utnba.ddsi.depoautomatizado.repositories.RepositorioDeRobots;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,8 +22,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import static org.junit.jupiter.params.shadow.com.univocity.parsers.conversions.Conversions.toLong;
 import static org.mockito.Mockito.*;
 
 class PedidosServiceTest {
@@ -42,10 +50,24 @@ class PedidosServiceTest {
         compartimientos.add(new Compartimiento("C2", new Posicion(2, 2, 2)));
         
         // Configuración de recorridos
-        Recorrido recorrido1 = new Recorrido();
-        Recorrido recorrido2 = new Recorrido();
-        compartimientos.get(0).setRecorrido(recorrido1);
-        compartimientos.get(1).setRecorrido(recorrido2);
+       Compartimiento compartimiento1 = compartimientos.get(0);
+       Compartimiento compartimiento2 = compartimientos.get(1);
+
+        Robot robot = new Drone(3333L);
+
+        Command command1 = new AvanzarCommand(robot, 34);
+        Command command2 = new GirarCommand(robot, 23);
+        Command command3 = new SoltarMercaderiaCommand(robot);
+        Command command5 = new AvanzarCommand(robot, 20);
+
+        ArrayList<Command> comandosAEjecutar1 = new ArrayList<>(List.of(command1, command2, command3));
+        ArrayList<Command> comandosAEjecutar2 = new ArrayList<>(List.of(command1, command5, command3));
+
+
+        Recorrido recorrido1 = new Recorrido(comandosAEjecutar1);
+        Recorrido recorrido2 = new Recorrido(comandosAEjecutar2);
+        compartimiento1.setRecorrido(recorrido1);
+        compartimiento2.setRecorrido(recorrido2);
         
         // Configuración de mercaderías
         mercaderias = new ArrayList<>();
