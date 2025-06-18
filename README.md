@@ -1,5 +1,23 @@
 # Challenge: Depósito Automatizado
 
+# Implementación
+
+## Recorridos
+Decidimos implementar los **recorridos** como una serie de pasos, aplicando un **Command Pattern**, donde encontramos distintos métodos como **Avanzar**, **Girar**, **RecogerPaquete** y **DejarPaquete** que se aplican al robot que ejecuta el recorrido. Las distancias de Avanzar, los grados de Girar, y el paquete de RecogerPaquete y DejarPaquete son definidos al momento de **instanciar** cada uno de los objetos que conforman la lista de pasos. Esta implementación permite facilitar la configuración de los recorridos, reutilizar los recorridos entre dsitintos robots e incluso (a pesar de no ser un requerimiento explícito) la creación de recorridos de manera dinámica (para esto sería necesario exponer por ejemplo un endpoint en una API REST). Esta implementación cumple con el principio **Open/Closed** y es **extensible**.
+
+> A modo de aclaración, es importante destacar que decidimos que el método accionar reciba al robot, en vez de instanciarlo al crear los objetos de los pasos o de crear un método por cada robot (AvanzarClark, GirarClark, AvanzarDron, etc.). Tomamos esta decisión porque permite desacoplar los métodos del Command del robot en sí, pudiendo reutilizar recorridos entre distintos robots de ser necesario, y evita tener que asignar el robot a los pasos desde el Service al instanciarlos.
+
+## Consolidación de Mercaderías
+Se valida que todas las mercaderías estén en el lugar de consolidación antes de marcarlo como completado. En caso de no ser así, ahora mismo se lanza una RuntimeException, pero es necesario discutir con el cliente cómo quiere manejar esta situación.
+
+## Notificar Transportista
+Para notificar al **transportista** se implementa un sistema **push based**, utilizando un **patrón Broker**. 
+Dentro de cada pedido, existe una **lista de observadores**. A pesar de que ahora mismo el observador sea uno solo (el transportista asignado a ese pedido), esta implementación aporta **extensibilidad**, permitiendo que el día de mañana se notifiquen más de un transportista, un cliente (como en ML), etc. al finalizar un pedido. Para esto se utiliza un **patrón observer**, donde la clase Transportista implementa la interfaz IObserver, aportando la extensibilidad mencionada anteriormente. A su vez, utilizamos un **patrón adapter** para poder desacoplar la exposición de la API utilizada de la lógica del Transportador. Esto nos permite llevar a cabo la implementación a pesar de no conocer la API expuesta, y permite que en futuro se pueda cambiar la API sin afectar la lógica del sistema.
+
+A pesar de que en un momento planificamos deshacernos de los bools en Pedido y migrar la lógica de la notificación del transportista al Pedido en sí, entendemos que por cuestiones de persistencia se decidió la implementación de los bools, y decidimos seguir la visión provista por la cátedra al utilizar el método _avisarATransportistaFinalizacionDe(Pedido pedido)_. La alternativa, que aún sigue sujeta a cambios, consiste en implementar el método _finalizar(Pedido pedido)_ dentro del pedido, llevando a cabo el forEach().
+
+
+
 ## Descripción
 Este challenge consiste en completar el diseño e implementación de un Sistema de Depósito Automatizado. El objetivo es que se implemente la lógica necesaria para manejar la recolección de mercadería en un depósito automatizado.
 
@@ -57,3 +75,5 @@ Para entregar su propuesta, cada grupo deberá:
 El primer equipo en entregar la solución y defender su propuesta adecuadamente, se convertirá en el equipo ganador del challenge.
 
 ¡Buena suerte! 
+
+

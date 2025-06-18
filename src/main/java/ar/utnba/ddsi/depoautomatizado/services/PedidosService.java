@@ -17,17 +17,22 @@ public class PedidosService {
     @Setter
     private EstrategiaObstaculo estrategiaObstaculo;
 
+
+
     PedidosService() {
         this.estrategiaObstaculo = new VolverInicioStrategy();
-    }
+    } //?No entiendo la idea de hardcodear la estrategia así. En realidad haría falta tener un controller que permita pedir la atención de un pedido con un robot que tenga x estrategia.
 
-    public void atenderPedido(Pedido pedido) {
+    //TODO: Crear (y persistir pedidos)
+
+    public void atenderPedido(Pedido pedido) { //* Se infiere que el pedido ya viene con el/los observadores asignados. La clase transportista existe para permitir crear los pedidos en sí.
         Robot robotLibre = this.repositorioRobots.buscarDisponible();
         robotLibre.setDisponible(false);
 
         this.repositorioRobots.actualizar(robotLibre);
 
         robotLibre.setEstrategiaObstaculo(this.estrategiaObstaculo);
+
         pedido.recogerMercaderiaPor(robotLibre);
 
         robotLibre.setDisponible(true);
@@ -37,8 +42,11 @@ public class PedidosService {
     }
 
     private void avisarATransportistaFinalizacionDe(Pedido pedido) {
-        //TODO: más adelante lo implementamos
+        if (pedido.estaCompletado()){
+            pedido.getObservers().forEach(observer -> {
+                observer.notificarFinalizacion(pedido);
+            });
+        }
     }
-
 
 }
