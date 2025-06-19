@@ -1,33 +1,16 @@
 package ar.utnba.ddsi.depoautomatizado.models.entities.recorridos;
 
-import ar.utnba.ddsi.depoautomatizado.models.entities.mercaderias.Compartimiento;
-import ar.utnba.ddsi.depoautomatizado.models.entities.mercaderias.Mercaderia;
-import ar.utnba.ddsi.depoautomatizado.models.entities.mercaderias.Posicion;
+import ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.comandos.AccionRecorrido;
 import ar.utnba.ddsi.depoautomatizado.models.entities.robots.Robot;
+import java.util.ArrayList;
+import java.util.List;
 
-public abstract class Recorrido {
-  private Posicion puntoInicio;
-  private Posicion puntoConsiliacion;
-  private Mercaderia mercaderiaARecoger;
+public class Recorrido {
+  private List<AccionRecorrido> acciones = new ArrayList<>();
 
   public void ejecutarRecorrido(Robot robot) {
-    salirDelPuntoDeInicio(robot, puntoInicio);
-    llegarHastaElCompartimiento(mercaderiaARecoger.getCompartimiento());
-    recogerLaMercaderia(robot, mercaderiaARecoger);
-    irAlPuntoDeConsolidacion(robot, puntoConsiliacion);
-    dejarMercaderia(robot);
-    volverAlPuntoDeInicio(robot, puntoInicio);
+    acciones.forEach(accionRecorrido -> {
+      accionRecorrido.ejecutar(robot);
+    });
   }
-
-  abstract void salirDelPuntoDeInicio(Robot robot, Posicion posicion);
-
-  abstract void llegarHastaElCompartimiento(Compartimiento compartimiento);
-
-  abstract void recogerLaMercaderia(Robot robot, Mercaderia mercaderia);
-
-  abstract void irAlPuntoDeConsolidacion(Robot robot, Posicion puntoConsiliacion);
-
-  abstract void dejarMercaderia(Robot robot);
-
-  abstract void volverAlPuntoDeInicio(Robot robot, Posicion posicion);
 }
