@@ -1,4 +1,22 @@
 package ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.comandos;
 
-public class AccionDeAgarrarMercaderia {
+import ar.utnba.ddsi.depoautomatizado.models.entities.mercaderias.Mercaderia;
+import ar.utnba.ddsi.depoautomatizado.models.entities.robots.Robot;
+
+public class AccionDeAgarrarMercaderia implements AccionRecorrido {
+  private Mercaderia mercaderia;
+
+  public AccionDeAgarrarMercaderia(Mercaderia mercaderia) {
+    this.mercaderia = mercaderia;
+  }
+
+  @Override
+  public void ejecutar(Robot robot) {
+    robot.agarrarMercaderia(mercaderia);
+  }
+
+  @Override
+  public void ejecutarInversa(Robot robot) {
+    //No tiene inversa
+  }
 }

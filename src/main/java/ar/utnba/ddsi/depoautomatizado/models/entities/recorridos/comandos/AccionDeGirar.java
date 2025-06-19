@@ -1,4 +1,21 @@
 package ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.comandos;
 
-public class AccionDeGirar {
+import ar.utnba.ddsi.depoautomatizado.models.entities.robots.Robot;
+
+public class AccionDeGirar implements AccionRecorrido {
+  private Integer grados;
+
+  public AccionDeGirar(Integer grados) {
+    this.grados = grados;
+  }
+
+  @Override
+  public void ejecutar(Robot robot) {
+    robot.girar(grados);
+  }
+
+  @Override
+  public void ejecutarInversa(Robot robot) {
+    robot.girar(grados * -1);
+  }
 }

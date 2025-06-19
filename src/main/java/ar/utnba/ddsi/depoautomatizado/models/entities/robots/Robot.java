@@ -11,6 +11,7 @@ import lombok.Setter;
 public abstract class Robot {
   private Long id;
   private boolean disponible;
+  private Integer ultimosPasosIntentados;
   private EstrategiaObstaculo estrategiaObstaculo;
   private InterfazControladoraDeRobot interfazControladoraDeRobot;
 
@@ -22,6 +23,7 @@ public abstract class Robot {
   //NOTA: Asumimos que solo al avanzar puede detectar un obstaculo, girar lo hace sosbre su posicion
   public void avanzar(Integer pasos) {
     try {
+      this.ultimosPasosIntentados = pasos;
       interfazControladoraDeRobot.avanzar(pasos);
     } catch (ExcepcionDeObstaculo e) {
       estrategiaObstaculo.manejarObstaculo(this);
@@ -32,12 +34,12 @@ public abstract class Robot {
     interfazControladoraDeRobot.girar(grados);
   }
 
-  public void agarrar(Mercaderia mercaderia) {
-    interfazControladoraDeRobot.agarrar(mercaderia);
+  public void agarrarMercaderia(Mercaderia mercaderia) {
+    interfazControladoraDeRobot.agarrarMercaderia(mercaderia);
   }
 
-  public void soltar(Mercaderia mercaderia) {
-    interfazControladoraDeRobot.soltar(mercaderia);
+  public void soltarMercaderia() {
+    interfazControladoraDeRobot.soltarMercaderia();
   }
 
   public void esperar(long tiempoEspera) {
@@ -45,7 +47,7 @@ public abstract class Robot {
   }
 
   public void reintentarUltimoMovimiento() {
-    mover(this.posicion);
+    interfazControladoraDeRobot.avanzar(this.ultimosPasosIntentados);
   }
 
   public abstract void esquivarObstaculo();

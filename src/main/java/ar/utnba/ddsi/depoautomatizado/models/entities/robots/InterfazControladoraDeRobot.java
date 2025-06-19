@@ -7,7 +7,9 @@ public interface InterfazControladoraDeRobot {
 
   void girar(Integer grados);
 
-  void agarrar(Mercaderia mercaderia);
+  void agarrarMercaderia(Mercaderia mercaderia);
 
-  void soltar(Mercaderia mercaderia);
+  void esperar(long tiempoEspera);
+
+  void soltarMercaderia();
 }
