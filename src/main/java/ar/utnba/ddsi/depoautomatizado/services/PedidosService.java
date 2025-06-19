@@ -24,14 +24,17 @@ public class PedidosService {
     public void atenderPedido(Pedido pedido) {
         Robot robotLibre = this.repositorioRobots.buscarDisponible();
         robotLibre.setDisponible(false);
+        System.out.println("Se ocupa al robot " + robotLibre.getId() + " con pedido " + pedido.getId());
 
         this.repositorioRobots.actualizar(robotLibre);
 
         robotLibre.setEstrategiaObstaculo(this.estrategiaObstaculo);
-        pedido.recogerMercaderiaPor(robotLibre);
+        pedido.recogerMercaderiaPor(robotLibre.getAdapter());
 
         robotLibre.setDisponible(true);
         this.repositorioRobots.actualizar(robotLibre);
+
+        System.out.println("Se libera al robot " + robotLibre.getId() + "\n");
 
         this.avisarATransportistaFinalizacionDe(pedido);
     }
@@ -39,6 +42,5 @@ public class PedidosService {
     private void avisarATransportistaFinalizacionDe(Pedido pedido) {
         //TODO: más adelante lo implementamos
     }
-
 
 }
