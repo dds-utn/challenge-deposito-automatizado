@@ -1,7 +1,7 @@
 package ar.utnba.ddsi.depoautomatizado.models.entities;
 
 import ar.utnba.ddsi.depoautomatizado.models.entities.mercaderias.Mercaderia;
-import ar.utnba.ddsi.depoautomatizado.models.entities.robots.Robot;
+import ar.utnba.ddsi.depoautomatizado.models.entities.robots.Adapter.RobotAdapter;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -31,10 +31,11 @@ public class Pedido {
         this.completado = true;
     }
 
-    public void recogerMercaderiaPor(Robot robot) {
+    public void recogerMercaderiaPor(RobotAdapter robot) {
         this.mercaderias.forEach(mercaderia -> {
             mercaderia.serRecogidaPor(robot);
         });
         this.marcarComoCompletado();
+        System.out.println("Completado el pedido " + this.id);
     }
 }

@@ -4,6 +4,10 @@ import ar.utnba.ddsi.depoautomatizado.models.entities.Pedido;
 import ar.utnba.ddsi.depoautomatizado.models.entities.mercaderias.Compartimiento;
 import ar.utnba.ddsi.depoautomatizado.models.entities.mercaderias.Mercaderia;
 import ar.utnba.ddsi.depoautomatizado.models.entities.mercaderias.Posicion;
+import ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.AvanzarRobot;
+import ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.DejarPaqueteRobot;
+import ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.GirarRobot;
+import ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.RecogerPaqueteRobot;
 import ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.Recorrido;
 import ar.utnba.ddsi.depoautomatizado.models.entities.robots.Clark;
 import ar.utnba.ddsi.depoautomatizado.models.entities.robots.Drone;
@@ -43,6 +47,13 @@ class PedidosServiceTest {
         
         // Configuración de recorridos
         Recorrido recorrido1 = new Recorrido();
+        recorrido1.addAccion(new AvanzarRobot(10));
+        recorrido1.addAccion(new GirarRobot(-90));
+        recorrido1.addAccion(new AvanzarRobot(10));
+        recorrido1.addAccion(new RecogerPaqueteRobot(10));
+        recorrido1.addAccion(new AvanzarRobot(10));
+        recorrido1.addAccion(new DejarPaqueteRobot(10));
+
         Recorrido recorrido2 = new Recorrido();
         compartimientos.get(0).setRecorrido(recorrido1);
         compartimientos.get(1).setRecorrido(recorrido2);
