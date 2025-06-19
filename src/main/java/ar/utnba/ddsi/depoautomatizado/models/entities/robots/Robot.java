@@ -2,9 +2,13 @@ package ar.utnba.ddsi.depoautomatizado.models.entities.robots;
 
 
 import ar.utnba.ddsi.depoautomatizado.models.entities.mercaderias.Mercaderia;
+import ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.comandos.AccionRecorrido;
 import ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.obstaculos.EstrategiaObstaculo;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter
@@ -12,6 +16,7 @@ public abstract class Robot {
   private Long id;
   private boolean disponible;
   private Integer ultimosPasosIntentados;
+  private List<AccionRecorrido> accionesEjecutadas = new ArrayList<>();
   private EstrategiaObstaculo estrategiaObstaculo;
   private InterfazControladoraDeRobot interfazControladoraDeRobot;
 
@@ -51,4 +56,12 @@ public abstract class Robot {
   }
 
   public abstract void esquivarObstaculo();
+
+  public void accionEjecutada(AccionRecorrido accionRecorrido) {
+    accionesEjecutadas.add(accionRecorrido);
+  }
+
+  public void volverAlInicio() {
+    accionesEjecutadas.forEach(accionRecorrido -> accionRecorrido.ejecutarInversa(this));
+  }
 }

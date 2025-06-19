@@ -10,6 +10,6 @@ public class AccionDeDejarMercaderia implements AccionRecorrido {
 
   @Override
   public void ejecutarInversa(Robot robot) {
-
+    //No tiene
   }
 }
