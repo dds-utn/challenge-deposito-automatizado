@@ -1,6 +1,6 @@
 package ar.utnba.ddsi.depoautomatizado.models.entities.mercaderias;
 
-import ar.utnba.ddsi.depoautomatizado.models.entities.robots.Robot;
+import ar.utnba.ddsi.depoautomatizado.models.entities.robots.Adapter.RobotAdapter;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,7 +16,7 @@ public class Mercaderia {
         this.descripcion = descripcion;
     }
 
-    public void serRecogidaPor(Robot robot) {
+    public void serRecogidaPor(RobotAdapter robot) {
         this.compartimiento.getRecorrido().ejecutarRecorrido(robot);
     }
 }
