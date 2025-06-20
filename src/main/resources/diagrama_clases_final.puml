@@ -1,0 +1,159 @@
+@startuml
+
+'---------------------- Clases principales ----------------------
+class Pedido {
+    - id: String
+    - mercaderias: List<Mercaderia>
+    - completado: boolean
+    --
+    + agregarMercaderia(mercaderia: Mercaderia): void
+    + estaCompletado(): boolean
+    + marcarComoCompletado(): void
+    + recogerMercaderiaPor(robot: Robot): void
+}
+
+class Mercaderia {
+    - id: String
+    - descripcion: String
+    - compartimiento: Compartimiento
+    --
+    + serRecogidaPor(robot: Robot): void
+}
+
+class Compartimiento {
+    - id: String
+    - recorrido: Recorrido
+    - posicion: Posicion
+    --
+    + Compartimiento(id: String, posicion: Posicion)
+}
+
+class Posicion {
+    - x: int
+    - y: int
+    - z: int
+}
+
+class Recorrido {
+    - puntoInicial: Posicion
+    - puntoFinal: Posicion
+    - acciones: List<Instruccion>
+    --
+    + ejecutarRecorrido(robot: Robot): void
+}
+
+
+abstract class Robot {
+    - id: Long
+    - disponible: boolean
+    - estrategiaObstaculo: EstrategiaObstaculo
+    - alturaMaxima: int
+    - alturaMinima: int
+    - posicionActual: Posicion
+    - accionesRealizadas: List<Instruccion>
+    - validarPosicionInicial(posicion): boolean
+    --
+    + ejecutarRecorrido(posInicial, instrucciones: List<Instruccion>): void
+    --
+    # validarMovimiento(instruccion: Instruccion): boolean
+    # avanzar(i: int): void
+    # retroceder(i: int): void
+    # girar(i: int): void
+    # subir(i: int): void
+    # bajar(i: int): void
+    # recoger() : void
+    # dejar(): void
+}
+
+class Clark {
+    + Clark(id: Long)
+    --
+    Implementaciones Robot..
+}
+
+class Drone {
+    + Drone(id: Long)
+    --
+    Implementaciones Robot..
+}
+
+interface EstrategiaObstaculo {
+    # manejarObstaculo(robot: Robot): void
+}
+
+class EsquivarObstaculoStrategy {
+    + manejarObstaculo(robot: Robot): void
+}
+
+class LlamarMantenimientoStrategy {
+    + manejarObstaculo(robot: Robot): void
+}
+
+class VolverInicioStrategy {
+    + manejarObstaculo(robot: Robot): void
+}
+
+interface Instruccion {
+    # ejecutar(robot: Robot): void
+}
+
+class Avanzar implements Instruccion {
+    - distancia: int
+    --
+    + ejecutar(robot: Robot): void
+}
+
+class Retroceder implements Instruccion {
+    - distancia: int
+    --
+    + ejecutar(robot: Robot): void
+}
+
+class Girar implements Instruccion {
+    - grados: int
+    --
+    + ejecutar(robot: Robot): void
+}
+
+class RecogerPaquete implements Instruccion {
+    + ejecutar(robot: Robot): void
+}
+
+class DejarPaquete implements Instruccion {
+    + ejecutar(robot: Robot): void
+}
+
+class Elevar implements Instruccion {
+    - distancia: int
+    --
+    + ejecutar(robot: Robot): void
+}
+
+class Bajar implements Instruccion {
+    - distancia: int
+    --
+    + ejecutar(robot: Robot, cantidad: int): void
+}
+
+
+'---------------------- Relaciones ----------------------
+
+Pedido --> Mercaderia : contiene *
+Mercaderia --> Compartimiento : tiene 1
+Compartimiento --> Recorrido : tiene 1
+Compartimiento --> Posicion : tiene 1
+Recorrido --> Robot : usa
+Mercaderia --> Robot : usa
+Pedido --> Robot : usa
+Robot --> EstrategiaObstaculo : usa
+Clark --|> Robot
+Drone --|> Robot
+EstrategiaObstaculo <|-- EsquivarObstaculoStrategy
+EstrategiaObstaculo <|-- LlamarMantenimientoStrategy
+EstrategiaObstaculo <|-- VolverInicioStrategy
+EstrategiaObstaculo <|-- EsperarYReintentarStrategy
+
+Recorrido -- Instruccion
+Robot -- Instruccion
+
+@enduml
