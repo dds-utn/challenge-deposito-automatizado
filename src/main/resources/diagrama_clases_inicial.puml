@@ -1,0 +1,87 @@
+@startuml
+
+'---------------------- Clases principales ----------------------
+class Pedido {
+    - id: String
+    - mercaderias: List<Mercaderia>
+    - completado: boolean
+    --
+    + agregarMercaderia(mercaderia: Mercaderia): void
+    + estaCompletado(): boolean
+    + marcarComoCompletado(): void
+    + recogerMercaderiaPor(robot: Robot): void
+}
+
+class Mercaderia {
+    - id: String
+    - descripcion: String
+    - compartimiento: Compartimiento
+    --
+    + serRecogidaPor(robot: Robot): void
+}
+
+class Compartimiento {
+    - id: String
+    - recorrido: Recorrido
+    - posicion: Posicion
+    --
+    + Compartimiento(id: String, posicion: Posicion)
+}
+
+class Posicion {
+    - x: int
+    - y: int
+    - z: int
+}
+
+class Recorrido {
+    + ejecutarRecorrido(robot: Robot): void
+}
+
+abstract class Robot {
+    - id: Long
+    - disponible: boolean
+    - estrategiaObstaculo: EstrategiaObstaculo
+}
+
+class Clark {
+    + Clark(id: Long)
+}
+
+class Drone {
+    + Drone(id: Long)
+}
+
+interface EstrategiaObstaculo {
+    + manejarObstaculo(robot: Robot): void
+}
+
+class EsquivarObstaculoStrategy {
+    + manejarObstaculo(robot: Robot): void
+}
+
+class LlamarMantenimientoStrategy {
+    + manejarObstaculo(robot: Robot): void
+}
+
+class VolverInicioStrategy {
+    + manejarObstaculo(robot: Robot): void
+}
+
+'---------------------- Relaciones ----------------------
+
+Pedido --> Mercaderia : contiene *
+Mercaderia --> Compartimiento : tiene 1
+Compartimiento --> Recorrido : tiene 1
+Compartimiento --> Posicion : tiene 1
+Recorrido --> Robot : usa
+Mercaderia --> Robot : usa
+Pedido --> Robot : usa
+Robot --> EstrategiaObstaculo : usa
+Clark --|> Robot
+Drone --|> Robot
+EsquivarObstaculoStrategy ..|> EstrategiaObstaculo
+LlamarMantenimientoStrategy ..|> EstrategiaObstaculo
+VolverInicioStrategy ..|> EstrategiaObstaculo
+
+@enduml
