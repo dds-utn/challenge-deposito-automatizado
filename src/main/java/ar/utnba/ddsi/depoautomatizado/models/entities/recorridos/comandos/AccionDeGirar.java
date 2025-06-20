@@ -15,7 +15,7 @@ public class AccionDeGirar implements AccionRecorrido {
   }
 
   @Override
-  public void ejecutarInversa(Robot robot) {
-    robot.girar(grados * -1);
+  public AccionRecorrido accionInversa() {
+    return new AccionDeGirar(this.grados * -1);
   }
 }

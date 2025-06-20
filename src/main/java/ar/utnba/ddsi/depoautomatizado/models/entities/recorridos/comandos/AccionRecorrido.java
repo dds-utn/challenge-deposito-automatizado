@@ -5,6 +5,6 @@ import ar.utnba.ddsi.depoautomatizado.models.entities.robots.Robot;
 public interface AccionRecorrido {
   void ejecutar(Robot robot);
 
-  void ejecutarInversa(Robot robot);
+  AccionRecorrido accionInversa();
 }
 

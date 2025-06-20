@@ -4,11 +4,9 @@ package ar.utnba.ddsi.depoautomatizado.models.entities.robots;
 import ar.utnba.ddsi.depoautomatizado.models.entities.mercaderias.Mercaderia;
 import ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.comandos.AccionRecorrido;
 import ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.obstaculos.EstrategiaObstaculo;
+import java.util.Stack;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Setter
 @Getter
@@ -16,13 +14,14 @@ public abstract class Robot {
   private Long id;
   private boolean disponible;
   private Integer ultimosPasosIntentados;
-  private List<AccionRecorrido> accionesEjecutadas = new ArrayList<>();
+  private Stack<AccionRecorrido> accionesEjecutadas = new Stack<>();
   private EstrategiaObstaculo estrategiaObstaculo;
   private InterfazControladoraDeRobot interfazControladoraDeRobot;
 
   Robot(Long id, InterfazControladoraDeRobot interfazControladoraDeRobot) {
     this.id = id;
     this.disponible = true;
+    this.interfazControladoraDeRobot = interfazControladoraDeRobot;
   }
 
   //NOTA: Asumimos que solo al avanzar puede detectar un obstaculo, girar lo hace sosbre su posicion
@@ -62,6 +61,8 @@ public abstract class Robot {
   }
 
   public void volverAlInicio() {
-    accionesEjecutadas.forEach(accionRecorrido -> accionRecorrido.ejecutarInversa(this));
+    accionesEjecutadas.forEach(accionRecorrido -> {
+      accionRecorrido.accionInversa().ejecutar(this);
+    });
   }
 }

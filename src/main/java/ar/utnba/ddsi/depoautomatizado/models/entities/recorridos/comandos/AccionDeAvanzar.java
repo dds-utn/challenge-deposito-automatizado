@@ -16,7 +16,7 @@ public class AccionDeAvanzar implements AccionRecorrido {
   }
 
   @Override
-  public void ejecutarInversa(Robot robot) {
-    robot.avanzar(cantidadPasos * -1);
+  public AccionRecorrido accionInversa() {
+    return new AccionDeAvanzar(this.cantidadPasos * -1);
   }
 }

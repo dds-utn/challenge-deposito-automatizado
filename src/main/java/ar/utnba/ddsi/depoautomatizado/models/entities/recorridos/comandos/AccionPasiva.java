@@ -2,10 +2,10 @@ package ar.utnba.ddsi.depoautomatizado.models.entities.recorridos.comandos;
 
 import ar.utnba.ddsi.depoautomatizado.models.entities.robots.Robot;
 
-public class AccionDeDejarMercaderia implements AccionRecorrido {
+public class AccionPasiva implements AccionRecorrido {
   @Override
   public void ejecutar(Robot robot) {
-    robot.soltarMercaderia();
+    //No hace nada.
   }
 
   @Override

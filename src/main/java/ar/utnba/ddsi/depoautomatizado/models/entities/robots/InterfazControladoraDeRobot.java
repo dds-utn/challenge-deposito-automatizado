@@ -12,4 +12,6 @@ public interface InterfazControladoraDeRobot {
   void esperar(long tiempoEspera);
 
   void soltarMercaderia();
+
+  void esquivarObstaculo();
 }

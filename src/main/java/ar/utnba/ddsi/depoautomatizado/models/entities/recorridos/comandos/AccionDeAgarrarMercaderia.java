@@ -16,7 +16,7 @@ public class AccionDeAgarrarMercaderia implements AccionRecorrido {
   }
 
   @Override
-  public void ejecutarInversa(Robot robot) {
-    //No tiene inversa
+  public AccionRecorrido accionInversa() {
+    return new AccionPasiva();
   }
 }
