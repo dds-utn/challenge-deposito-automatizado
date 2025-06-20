@@ -40,17 +40,15 @@ public abstract class Robot {
         for (Instruccion instruccion : instrucciones) {
             try {
                 if(!this.validarMovimiento(instruccion))
-                    this.manejarObstaculo(accionesRealizadas);;
+                    this.estrategiaObstaculo.manejarObstaculo(this);
 
                 instruccion.ejecutar(this);
                 accionesRealizadas.add(instruccion);
             } catch (Exception e) {
-                manejarObstaculo(List.of(instruccion));
+                this.estrategiaObstaculo.manejarObstaculo(List.of(instruccion));
             }
         }
     }
-
-    protected abstract void manejarObstaculo(List<Instruccion> acciones);
 
     protected abstract boolean validarMovimiento(Instruccion instruccion);
 
