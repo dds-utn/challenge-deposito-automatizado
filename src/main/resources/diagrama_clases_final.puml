@@ -55,7 +55,6 @@ abstract class Robot {
     --
     + ejecutarRecorrido(posInicial, instrucciones: List<Instruccion>): void
     --
-    # manejarObstaculo(acciones)
     # validarMovimiento(instruccion: Instruccion): boolean
     # avanzar(i: int): void
     # retroceder(i: int): void
