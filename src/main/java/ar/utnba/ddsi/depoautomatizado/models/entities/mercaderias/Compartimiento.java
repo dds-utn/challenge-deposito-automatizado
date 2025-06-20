@@ -7,12 +7,12 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Compartimiento {
-    private String id;
-    private Recorrido recorrido;
-    private Posicion posicion;
-    
-    public Compartimiento(String id, Posicion posicion) {
-        this.id = id;
-        this.posicion = posicion;
-    }
+  private String id;
+  private Recorrido recorrido;
+  private Posicion posicion;
+
+  public Compartimiento(String id, Posicion posicion) {
+    this.id = id;
+    this.posicion = posicion;
+  }
 }
